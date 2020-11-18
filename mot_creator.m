@@ -64,5 +64,5 @@ q.labels=data_temp.labels; %labels are taken from the .mot file to modify
 q.nr=row;
 q.nc=data_temp.nc;
 
-write_motionFile(q, mot_new_name,time);
+write_motionFile(q, mot_new_name);
 end
