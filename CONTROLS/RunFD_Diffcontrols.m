@@ -2,8 +2,13 @@
 %% Example with data chnaged programmatically in Matlab
 clear;close all;
 
-xlsfile='/Users/dc547/Desktop/Work/Teaching/HL40064 - MSK Modelling/2020_21/Projects/Kicking DATA/EMGs.xlsx'; %chnage it accordingly 
+%% Import the OpenSim modeling classes
+import org.opensim.modeling.*
 
+%% Excel file
+xlsfile='/Users/dc547/Desktop/Work/Teaching/HL40064 - MSK Modelling/2020_21/Projects/Kicking DATA/EMGs.xlsx'; %chnage it accordingly 
+osimModel_file='/Users/dc547/Desktop/Work/Teaching/HL40064 - MSK Modelling/2020_21/Projects/Kicking DATA/SoccerKick/SoccerKickingModel.osim';
+%Read excel file
 [num,txt,~] = xlsread(xlsfile) ;
 [row,col]=size(num);
 time=num(:,1);
@@ -23,5 +28,31 @@ for j=1:n_sims %running 50 times indeed
   base_EMGs(:,:,j)=num(:,2:end).*activation_coeff;
     
   create_control_file( base_EMGs(:,:,j),'controls_kick.xml',[ 'new_control_' num2str(2) '.xml']) ;
- 
+
+  
+%% Run FD
+  
+
+
+%% LOAD states
+% % states = load_sto_file(states_file);
+f_time=time(end);
+%% Read osim model
+osimModel = Model(osimModel_file); %add paths for the osim model file
+
+ft=ForwardTool();
+ft.setModel(osimModel);
+ft.setSolveForEquilibrium(1);
+ft.setErrorTolerance(0.0000001);
+ft.setMaxDT(time(2,1)/10);
+ft.setMinDT(time(2,1)/15);
+ft.setInitialTime(0);
+ft.setFinalTime(f_time);
+ft.setName([ '/Users/dc547/Desktop/Work/Teaching/HL40064 - MSK Modelling/2020_21/Projects/Kicking DATA/new_res_' num2str(2) '.sto']);%names to be changed depending on input values
+% % ft.setStatesFileName(states_file);
+ft.run();
+
+  
+  
 end
+
