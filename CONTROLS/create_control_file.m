@@ -12,17 +12,20 @@ function create_control_file(xlsfile,template_control,filename)
 % have created containing the new inputs for the controls
 % 
 % (2) template control - (xml) - Template control file created with 
-% OpenSim using the control editor on the GUI.
+% OpenSim using the control editor on the GUI. It is control_kick.xml in
+% the example.
 % 
 % (3) filename - (string) - Filename for the new control file created
 %
 %% Originally written by D. Cazzola, Uni of Bath, 10/11/2020
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 % Load xml file as template
 sampleXMLfile = template_control;
 
 xml=xml2struct(sampleXMLfile);
+
 
 %% Work on the template file
 
@@ -36,8 +39,19 @@ xml.OpenSimDocument.ControlSet.objects = rmfield(xml.OpenSimDocument.ControlSet.
 
 % Load xls file - first row header and then a matrix containing the data -
 % First column is time.
+if isstring(xlsfile)
 [num,txt,~] = xlsread(xlsfile) ;
 [row,col]=size(num);
+else
+    num=xlsfile;
+    time=num(:,1);
+    row=size(num,1);
+    col=size(num,2);
+    
+    for i=1:col
+    txt{i}=num2str(i);
+    end
+end
 
 %remove all Control Linear nodes but the first one using a 'temp' field 
 temp2=xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes.ControlLinearNode{1,1};
