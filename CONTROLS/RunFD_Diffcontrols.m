@@ -27,7 +27,7 @@ for j=1:n_sims %running 50 times indeed
   activation_coeff=[1 1 1 1 1 1 1 1]*dec_factor;  % [rect_fem_r	bifemlh_r	bifemsh_r	vast_int_r	glut_max_r	psoas_r	tib_ant_r	med_gas_r]
   base_EMGs(:,:,j)=num(:,2:end).*activation_coeff;
     
-  create_control_file( base_EMGs(:,:,j),'controls_kick.xml',[ 'new_control_' num2str(2) '.xml']) ;
+  create_control_file( base_EMGs(:,:,j),'controls_kick.xml',[ 'new_control_' num2str(2) '.xml'],txt) ;
 
   
 %% Run FD
@@ -44,8 +44,8 @@ ft=ForwardTool();
 ft.setModel(osimModel);
 ft.setSolveForEquilibrium(1);
 ft.setErrorTolerance(0.0000001);
-ft.setMaxDT(time(2,1)/10);
-ft.setMinDT(time(2,1)/15);
+ft.setMaxDT(time(2,1)/100);
+ft.setMinDT(time(2,1)/1000);
 ft.setInitialTime(0);
 ft.setFinalTime(f_time);
 ft.setName([ '/Users/dc547/Desktop/Work/Teaching/HL40064 - MSK Modelling/2020_21/Projects/Kicking DATA/new_res_' num2str(2) '.sto']);%names to be changed depending on input values
