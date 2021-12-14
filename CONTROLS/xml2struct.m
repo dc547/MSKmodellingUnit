@@ -138,7 +138,7 @@ name = char(getNodeName(theNode));
 name = strrep(name, '-', '_dash_');
 name = strrep(name, ':', '_colon_');
 name = strrep(name, '.', '_dot_');
-name = strrep(name, '_', 'u_');
+name = strrep(name, '_', '_');
 
 attr = parseAttributes(theNode);
 if (isempty(fieldnames(attr))) 

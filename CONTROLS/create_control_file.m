@@ -64,23 +64,24 @@ else % when input file is a Matlab matrix or array
 end
 
 %remove all Control Linear nodes but the first one using a 'temp' field
-temp2=xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes.ControlLinearNode{1,1};
-xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes.ControlLinearNodeTemp{1,1}=temp2;
+temp2=xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes.ControlLinearNode{1,1};
+xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes.ControlLinearNodeTemp{1,1}=temp2;
 
-xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes = ...
-    rmfield(xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes,'ControlLinearNode');
-xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes.ControlLinearNode=...
-    xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes.ControlLinearNodeTemp;
-xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes = ...
-    rmfield(xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.xu_nodes,'ControlLinearNodeTemp');
+xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes = ...
+    rmfield(xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes,'ControlLinearNode');
+xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes.ControlLinearNode=...
+    xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes.ControlLinearNodeTemp;
+xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes = ...
+    rmfield(xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1}.x_nodes,'ControlLinearNodeTemp');
 
 %% Update t and values
 for i=2:col
+    xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, i-1}=xml.OpenSimDocument.ControlSet.objects.ControlLinear{1, 1};
     xml.OpenSimDocument.ControlSet.objects.ControlLinear{1,i-1}.Attributes.name=char(txt{i});
     
     for j=2:row
-        xml.OpenSimDocument.ControlSet.objects.ControlLinear{1,i-1}.xu_nodes.ControlLinearNode{1, j-1}.t.Text=num2str(num(j,1));
-        xml.OpenSimDocument.ControlSet.objects.ControlLinear{1,i-1}.xu_nodes.ControlLinearNode{1, j-1}.value.Text=num2str(num(j,i));
+        xml.OpenSimDocument.ControlSet.objects.ControlLinear{1,i-1}.x_nodes.ControlLinearNode{1, j-1}.t.Text=num2str(num(j,1));
+        xml.OpenSimDocument.ControlSet.objects.ControlLinear{1,i-1}.x_nodes.ControlLinearNode{1, j-1}.value.Text=num2str(num(j,i));
     end
 end
 

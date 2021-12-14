@@ -16,7 +16,7 @@ function states_creator(states_example_file, states_file, states_output_file)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Load excel file
-if contains(input_file,'.xls')
+if isstring(states_file) || ischar(states_file)
 [num,~,~] = xlsread(states_file) ;
 [row,~]=size(num);
 else
@@ -35,7 +35,7 @@ end
 % just get the first line for the initial conditions
 if row==1
     data=num; %check that the time is in line with other file inputted in the FD
-    displ('States to be used as initial conditions for FD');
+    fprintf('States to be used as initial conditions for FD');
 else
     data=num(1,:);
     warning('States present for more than one frame - Correct?');
